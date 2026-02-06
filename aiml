@@ -1,0 +1,2316 @@
+# Product Requirements Document (PRD)
+## AI-Powered Smart Parking Availability Predictor
+
+---
+
+## 1. Product Overview
+
+### 1.1 Product Name
+**AI-Powered Smart Parking Availability Predictor**
+
+### 1.2 Product Type
+Artificial Intelligence–based Smart City & Mobility Solution
+
+### 1.3 Problem Statement
+Urban cities face increasing parking congestion due to high vehicle density, limited parking spaces, and unpredictable demand influenced by time, location, traffic conditions, and nearby events. Drivers often spend excessive time searching for parking, leading to:
+- Increased traffic congestion
+- Fuel wastage
+- Higher carbon emissions
+- Commuter frustration and productivity loss
+- Inefficient utilization of existing parking infrastructure
+
+### 1.4 Proposed Solution
+An AI-powered system that predicts zone-wise parking availability using historical data, time-based trends, location data, traffic indicators, and event-related demand surges. The system provides near real-time predictions along with confidence levels to assist commuters and city authorities in making informed decisions.
+
+### 1.5 Value Proposition
+- **For Commuters:** Save time and fuel by identifying parking spots before arrival
+- **For Cities:** Reduce congestion and emissions through optimized parking utilization
+- **For Operators:** Maximize revenue through better resource allocation
+- **For Environment:** Lower carbon footprint through reduced search time
+
+---
+
+## 2. Goals and Objectives
+
+### 2.1 Primary Goals
+1. Predict parking availability accurately for different city zones
+2. Reduce traffic congestion caused by parking searches
+3. Improve commuter experience through data-driven insights
+4. Support smart city planning and parking policy decisions
+
+### 2.2 Success Metrics
+
+| Metric | Target | Measurement Method |
+|--------|--------|-------------------|
+| Prediction Accuracy (MAE) | < 10% error | Model evaluation |
+| User Adoption Rate | 1,000+ active users in 3 months | Analytics tracking |
+| Average Parking Search Time Reduction | 30% decrease | User surveys |
+| System Uptime | 99.5% | Monitoring tools |
+| API Response Time | < 2 seconds | Performance logs |
+| User Satisfaction Score | > 4.0/5.0 | Feedback surveys |
+
+### 2.3 Key Performance Indicators (KPIs)
+- Daily active users (DAU)
+- Prediction accuracy by zone
+- Average confidence score
+- API call volume
+- User retention rate
+- Zone coverage percentage
+
+---
+
+## 3. Target Users
+
+### 3.1 Primary Users
+
+**Daily Commuters**
+- **Demographics:** Working professionals, 25-55 years old
+- **Needs:** Quick parking solutions during rush hours
+- **Pain Points:** Time wasted searching for parking, being late to work
+- **Use Case:** Check parking before leaving home/office
+
+**Visitors to Busy Urban Areas**
+- **Demographics:** Tourists, occasional city visitors
+- **Needs:** Unfamiliar with parking options
+- **Pain Points:** Navigation challenges, parking regulations
+- **Use Case:** Find parking near destinations (malls, hospitals, tourist spots)
+
+**Parking Facility Operators**
+- **Demographics:** Private/public parking lot managers
+- **Needs:** Optimize utilization and revenue
+- **Pain Points:** Underutilized spaces, no demand forecasting
+- **Use Case:** Capacity planning and dynamic pricing
+
+### 3.2 Secondary Users
+
+**City Administrators**
+- **Needs:** Data-driven policy making
+- **Use Case:** Urban planning and infrastructure decisions
+
+**Traffic Management Authorities**
+- **Needs:** Congestion reduction strategies
+- **Use Case:** Traffic flow optimization
+
+**Urban Planners**
+- **Needs:** Long-term parking infrastructure planning
+- **Use Case:** Identify zones needing additional parking
+
+---
+
+## 4. Key Features & Requirements
+
+### 4.1 Functional Requirements
+
+#### 4.1.1 Data Ingestion Module
+**Priority:** High
+
+**Requirements:**
+- Import historical parking occupancy data (CSV, JSON, API)
+- Integrate time-based data:
+  - Hour of day (0-23)
+  - Day of week (Monday-Sunday)
+  - Weekday/Weekend flag
+  - Month/Season
+- Include event indicators:
+  - Public holidays
+  - Local festivals
+  - Sports events
+  - Concerts/conferences
+  - Office hours/business days
+- Accept traffic flow indicators (optional):
+  - Real-time traffic density
+  - Average speed on nearby roads
+  - Accident/road closure data
+- Support batch and streaming data ingestion
+- Data validation and quality checks
+
+**Acceptance Criteria:**
+- Successfully import datasets with >95% data completeness
+- Handle missing values through imputation
+- Flag and log data quality issues
+
+#### 4.1.2 Prediction Engine
+**Priority:** High
+
+**Requirements:**
+- Machine learning model training pipeline
+- Multiple model support (Linear Regression, Random Forest, XGBoost, Neural Networks)
+- Model versioning and A/B testing capability
+- Generate predictions:
+  - Zone-wise availability percentage (0-100%)
+  - Confidence score (0-100%)
+  - Prediction timestamp
+- Support batch and real-time prediction modes
+- Model retraining scheduler (weekly/monthly)
+- Feature importance analysis
+
+**Acceptance Criteria:**
+- Prediction accuracy (MAE) < 10%
+- Response time < 2 seconds for individual zone
+- Confidence score correlation with actual accuracy > 0.8
+- Support predictions for 1-4 hour windows
+
+#### 4.1.3 User Interface (Dashboard)
+**Priority:** High
+
+**Features:**
+- **Home Screen:**
+  - Interactive city map with zone boundaries
+  - Color-coded availability indicators:
+    - Green: High availability (>60%)
+    - Yellow: Medium availability (30-60%)
+    - Red: Low availability (<30%)
+  - Current time and selected prediction time
+  - Quick search by zone name or address
+
+- **Zone Detail View:**
+  - Predicted availability percentage
+  - Confidence score display
+  - Historical trend graph (past 7 days)
+  - Predicted trend for next 4 hours
+  - Nearby alternative zones
+  - Estimated walking distance to zone
+
+- **Filters & Controls:**
+  - Time selector (current, +1hr, +2hr, +4hr)
+  - Date picker for future planning
+  - Zone type filter (street parking, garages, lots)
+  - Event toggle (show/hide event impact)
+
+- **Additional Features:**
+  - Save favorite zones
+  - Push notifications for saved zones
+  - Directions to selected zone (Google Maps integration)
+  - Parking tips and regulations
+
+**Acceptance Criteria:**
+- Responsive design (mobile, tablet, desktop)
+- Page load time < 3 seconds
+- Accessibility compliance (WCAG 2.1 Level AA)
+- Intuitive navigation (user testing score > 4/5)
+
+#### 4.1.4 Admin Panel
+**Priority:** Medium
+
+**Features:**
+- **Data Management:**
+  - Upload datasets (drag-and-drop, file browser)
+  - Data preview and validation
+  - Edit zone information (name, boundaries, capacity)
+  - Manage event calendar
+  - Import traffic data sources
+
+- **Model Management:**
+  - View model performance metrics:
+    - MAE, RMSE, R² score by zone
+    - Prediction vs actual graphs
+    - Confidence score distribution
+  - Trigger model retraining
+  - Compare model versions
+  - Deploy/rollback models
+  - Feature importance visualization
+
+- **System Monitoring:**
+  - API usage statistics
+  - Error logs and alerts
+  - User activity analytics
+  - System health dashboard
+
+- **User Management:**
+  - User roles and permissions
+  - Access control settings
+  - Audit logs
+
+**Acceptance Criteria:**
+- Role-based access control (Admin, Operator, Viewer)
+- Secure authentication (OAuth 2.0 or JWT)
+- Comprehensive logging of all admin actions
+
+#### 4.1.5 API Layer
+**Priority:** High
+
+**Endpoints:**
+
+```
+GET /api/v1/zones
+- Returns list of all parking zones with metadata
+
+GET /api/v1/zones/{zone_id}/prediction
+- Parameters: time (optional), date (optional)
+- Returns: predicted availability, confidence, timestamp
+
+GET /api/v1/zones/{zone_id}/history
+- Parameters: start_date, end_date
+- Returns: historical occupancy data
+
+POST /api/v1/predictions/batch
+- Body: array of {zone_id, time, date}
+- Returns: predictions for multiple zones
+
+GET /api/v1/events
+- Parameters: date_range
+- Returns: events affecting parking
+
+GET /api/v1/analytics/accuracy
+- Returns: model performance metrics
+```
+
+**Requirements:**
+- RESTful API design
+- JSON response format
+- API rate limiting (100 requests/minute per user)
+- API key authentication
+- Comprehensive API documentation (OpenAPI/Swagger)
+- Versioning support
+
+**Acceptance Criteria:**
+- All endpoints return responses within 2 seconds
+- Error responses include clear messages and status codes
+- API documentation covers all endpoints with examples
+
+---
+
+### 4.2 Non-Functional Requirements
+
+#### 4.2.1 Performance
+- **Prediction Response Time:** < 2 seconds for single zone, < 5 seconds for city-wide
+- **Dashboard Load Time:** < 3 seconds initial load, < 1 second for interactions
+- **Database Query Time:** < 500ms for complex queries
+- **Concurrent Users:** Support 1,000 simultaneous users
+- **Model Training Time:** < 2 hours for full dataset
+
+#### 4.2.2 Scalability
+- **Horizontal Scaling:** Support city-level expansion (100+ zones initially, 1,000+ zones future)
+- **Data Volume:** Handle 1M+ records per zone per year
+- **Cloud-Ready:** Containerized deployment (Docker)
+- **Load Balancing:** Auto-scaling based on traffic
+- **Database Sharding:** Support zone-based data partitioning
+
+#### 4.2.3 Reliability
+- **System Uptime:** 99.5% availability
+- **Fault Tolerance:** Graceful degradation during model/API failures
+- **Fallback Mechanisms:**
+  - Default to historical averages if ML model unavailable
+  - Cache recent predictions for offline access
+  - Alternative data sources for missing inputs
+- **Backup & Recovery:** Daily automated backups, 4-hour recovery time objective (RTO)
+- **Error Handling:** Comprehensive logging and user-friendly error messages
+
+#### 4.2.4 Security
+- **Authentication:** JWT-based user authentication
+- **Authorization:** Role-based access control (RBAC)
+- **Data Encryption:** TLS 1.3 for data in transit, AES-256 for sensitive data at rest
+- **API Security:**
+  - Rate limiting
+  - API key rotation policy
+  - CORS policy enforcement
+- **Privacy Compliance:** GDPR-compliant data handling
+- **Security Audits:** Quarterly vulnerability assessments
+- **Input Validation:** Sanitize all user inputs to prevent injection attacks
+
+#### 4.2.5 Usability
+- **User Interface:**
+  - Intuitive navigation (max 3 clicks to any feature)
+  - Consistent design language (Material Design or similar)
+  - Responsive design (mobile-first approach)
+- **Accessibility:**
+  - WCAG 2.1 Level AA compliance
+  - Screen reader compatibility
+  - Keyboard navigation support
+  - Color contrast ratios > 4.5:1
+- **Localization:** Multi-language support (English, Hindi, regional languages)
+- **Help & Documentation:**
+  - Interactive tooltips
+  - FAQ section
+  - Video tutorials
+  - In-app help chat
+
+#### 4.2.6 Maintainability
+- **Code Quality:**
+  - Modular architecture
+  - Comprehensive code comments
+  - 80%+ test coverage
+- **Documentation:**
+  - Technical architecture documentation
+  - API documentation
+  - Deployment guides
+  - User manuals
+- **Monitoring:**
+  - Application performance monitoring (APM)
+  - Real-time alerting
+  - Log aggregation and analysis
+
+#### 4.2.7 Compatibility
+- **Browser Support:** Chrome, Firefox, Safari, Edge (last 2 versions)
+- **Mobile OS:** iOS 13+, Android 9+
+- **Database Compatibility:** PostgreSQL 12+, SQLite 3+ (for development)
+- **API Standards:** RESTful, OpenAPI 3.0
+
+---
+
+## 5. User Stories
+
+### 5.1 Commuter Stories
+
+**Story 1: Morning Commute Planning**
+- **As a** daily commuter
+- **I want to** check parking availability near my office before leaving home
+- **So that** I can plan my departure time and avoid parking stress
+- **Acceptance Criteria:**
+  - View predictions for 1-2 hours ahead
+  - See confidence level for each prediction
+  - Get alternative zone suggestions if primary zone is full
+  - Receive notifications if availability changes significantly
+
+**Story 2: Event-Based Parking**
+- **As a** visitor attending a concert
+- **I want to** see how nearby events affect parking availability
+- **So that** I can arrive early or find alternative parking
+- **Acceptance Criteria:**
+  - Event indicators visible on map
+  - Predictions account for event impact
+  - Historical event data available for comparison
+
+**Story 3: Favorite Zones**
+- **As a** frequent visitor to certain areas
+- **I want to** save my favorite parking zones
+- **So that** I can quickly check their availability
+- **Acceptance Criteria:**
+  - Ability to save up to 5 favorite zones
+  - Quick access to favorites from home screen
+  - Notifications for favorite zones
+
+### 5.2 Parking Operator Stories
+
+**Story 4: Utilization Optimization**
+- **As a** parking facility operator
+- **I want to** view predicted demand for my parking lot
+- **So that** I can optimize staffing and pricing
+- **Acceptance Criteria:**
+  - Access to hourly predictions for next 24 hours
+  - Historical utilization trends
+  - Peak hour identification
+  - Revenue impact estimates
+
+**Story 5: Capacity Planning**
+- **As a** parking operator
+- **I want to** understand long-term demand patterns
+- **So that** I can plan facility expansions or service improvements
+- **Acceptance Criteria:**
+  - Weekly/monthly trend analysis
+  - Seasonal pattern identification
+  - Comparison with city-wide trends
+
+### 5.3 City Administrator Stories
+
+**Story 6: Policy Decision Support**
+- **As a** city administrator
+- **I want to** analyze zone-wise parking data and trends
+- **So that** I can make informed parking policy decisions
+- **Acceptance Criteria:**
+  - Access to aggregated analytics dashboard
+  - Zone comparison tools
+  - Congestion hotspot identification
+  - Export reports (PDF, CSV)
+
+**Story 7: Infrastructure Planning**
+- **As an** urban planner
+- **I want to** identify underserved areas with high parking demand
+- **So that** I can plan new parking infrastructure
+- **Acceptance Criteria:**
+  - Heat maps showing demand vs supply gaps
+  - Growth trend projections
+  - Integration with city planning GIS systems
+
+### 5.4 Traffic Authority Stories
+
+**Story 8: Congestion Management**
+- **As a** traffic management officer
+- **I want to** correlate parking search patterns with traffic congestion
+- **So that** I can implement targeted traffic management measures
+- **Acceptance Criteria:**
+  - Traffic flow integration with parking data
+  - Congestion alert system
+  - Real-time dashboard for traffic control center
+
+---
+
+## 6. System Architecture
+
+### 6.1 High-Level Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER                       │
+├─────────────────────────────────────────────────────────────┤
+│  Web Dashboard  │  Mobile App  │  Admin Panel  │  API Docs  │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                    APPLICATION LAYER                         │
+├─────────────────────────────────────────────────────────────┤
+│  API Gateway  │  Authentication  │  Rate Limiter  │  Logger  │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                     BUSINESS LOGIC LAYER                     │
+├─────────────────────────────────────────────────────────────┤
+│  Prediction Service  │  Analytics Service  │  User Service  │
+│  Zone Service  │  Event Service  │  Notification Service    │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                   ML & DATA PROCESSING LAYER                 │
+├─────────────────────────────────────────────────────────────┤
+│  Feature Engineering  │  Model Training  │  Prediction Engine│
+│  Data Validation  │  Model Registry  │  Batch Processing    │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                        DATA LAYER                            │
+├─────────────────────────────────────────────────────────────┤
+│  PostgreSQL  │  Redis Cache  │  File Storage  │  ML Models  │
+│  Event DB  │  Time-series DB  │  Backup Storage             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 6.2 Component Details
+
+#### 6.2.1 Data Layer
+**Purpose:** Store and manage all system data
+
+**Components:**
+- **Primary Database (PostgreSQL):**
+  - Zone metadata
+  - Historical occupancy data
+  - User profiles
+  - Event calendar
+  - API logs
+  
+- **Cache Layer (Redis):**
+  - Recent predictions
+  - Frequently accessed zone data
+  - Session management
+  - Rate limiting counters
+
+- **File Storage:**
+  - Uploaded datasets
+  - Model artifacts
+  - Generated reports
+  - User uploads
+
+- **Time-series Database (Optional - InfluxDB):**
+  - Real-time occupancy tracking
+  - Traffic flow data
+  - System metrics
+
+#### 6.2.2 ML & Data Processing Layer
+**Purpose:** Train models and generate predictions
+
+**Components:**
+- **Data Ingestion Pipeline:**
+  - Data validation
+  - Cleaning and preprocessing
+  - Feature extraction
+  - Data transformation
+
+- **Feature Engineering:**
+  - Time-based features (hour, day, season)
+  - Lag features (previous hour, day, week)
+  - Event encoding
+  - Traffic indicators
+  - Location-based features
+
+- **Model Training:**
+  - Experiment tracking (MLflow)
+  - Hyperparameter tuning
+  - Cross-validation
+  - Model versioning
+  - Automated retraining scheduler
+
+- **Prediction Engine:**
+  - Real-time inference
+  - Batch prediction
+  - Confidence calculation
+  - Model serving (TensorFlow Serving / FastAPI)
+
+#### 6.2.3 Business Logic Layer
+**Purpose:** Implement core business functionality
+
+**Services:**
+- **Prediction Service:** Handle prediction requests, apply business rules
+- **Zone Service:** Manage zone data, boundaries, metadata
+- **Event Service:** Track and process event data
+- **Analytics Service:** Generate reports and insights
+- **User Service:** User management, preferences, favorites
+- **Notification Service:** Push notifications, alerts
+
+#### 6.2.4 Application Layer
+**Purpose:** Manage API access and security
+
+**Components:**
+- **API Gateway:** Route requests, load balancing
+- **Authentication:** JWT-based auth, OAuth integration
+- **Rate Limiter:** Protect against abuse
+- **Logger:** Centralized logging
+- **CORS Handler:** Cross-origin request management
+
+#### 6.2.5 Presentation Layer
+**Purpose:** User-facing interfaces
+
+**Applications:**
+- **Web Dashboard:** React-based responsive web app
+- **Mobile App (Future):** Native iOS/Android apps
+- **Admin Panel:** Management interface
+- **API Documentation:** Interactive Swagger/OpenAPI docs
+
+### 6.3 Technology Stack
+
+| Layer | Technology | Justification |
+|-------|-----------|---------------|
+| **Frontend** | React.js | Component-based, rich ecosystem, performance |
+| | Tailwind CSS | Rapid UI development, responsive design |
+| | Leaflet.js | Interactive maps, open-source |
+| | Chart.js | Data visualization |
+| **Backend** | Python 3.9+ | ML ecosystem, rapid development |
+| | Flask/FastAPI | Lightweight, RESTful API support |
+| | Gunicorn | Production WSGI server |
+| | Nginx | Reverse proxy, load balancing |
+| **ML/Data Science** | scikit-learn | Classical ML algorithms |
+| | XGBoost | Gradient boosting, high performance |
+| | TensorFlow/PyTorch | Deep learning (future) |
+| | Pandas | Data manipulation |
+| | NumPy | Numerical computing |
+| | MLflow | Experiment tracking |
+| **Database** | PostgreSQL | Robust, ACID compliant, GIS support (PostGIS) |
+| | Redis | Caching, session storage |
+| | SQLite | Development/testing |
+| **DevOps** | Docker | Containerization |
+| | Docker Compose | Local development orchestration |
+| | Kubernetes (Future) | Production orchestration |
+| | GitHub Actions | CI/CD pipeline |
+| **Monitoring** | Prometheus | Metrics collection |
+| | Grafana | Metrics visualization |
+| | ELK Stack | Log management (optional) |
+| **Cloud (Future)** | AWS/GCP/Azure | Scalable cloud deployment |
+
+### 6.4 Data Flow
+
+```
+User Request
+    ↓
+API Gateway (Authentication, Rate Limiting)
+    ↓
+Check Redis Cache
+    ↓ (Cache Miss)
+Prediction Service
+    ↓
+Fetch Features (Zone, Time, Events, Traffic)
+    ↓
+ML Model Inference
+    ↓
+Calculate Confidence Score
+    ↓
+Store in Cache
+    ↓
+Return Prediction to User
+```
+
+### 6.5 Deployment Architecture
+
+**Development Environment:**
+- Local Docker containers
+- SQLite database
+- Hot reload for frontend/backend
+
+**Staging Environment:**
+- Cloud-based containers
+- PostgreSQL instance
+- Mirrors production configuration
+
+**Production Environment:**
+- Load-balanced application servers
+- Managed database service
+- CDN for static assets
+- Auto-scaling based on load
+- Multi-region deployment (future)
+
+---
+
+## 7. Machine Learning Details
+
+### 7.1 Problem Formulation
+
+**Problem Type:** Supervised Regression
+
+**Objective:** Predict parking occupancy percentage (0-100%) for a given zone at a specific time
+
+**Approach:** Train separate models per zone or a single multi-zone model with zone embeddings
+
+### 7.2 Input Features
+
+#### 7.2.1 Core Features
+
+| Feature Category | Features | Type | Example |
+|-----------------|----------|------|---------|
+| **Location** | Zone ID | Categorical | "ZONE_001" |
+| | Zone Type | Categorical | "Street", "Garage", "Lot" |
+| | Zone Capacity | Numerical | 150 |
+| | District | Categorical | "Downtown", "Suburbs" |
+| | Latitude | Numerical | 23.0225 |
+| | Longitude | Numerical | 72.5714 |
+| **Time** | Hour of Day | Numerical (0-23) | 14 |
+| | Day of Week | Categorical | "Monday" |
+| | Is Weekend | Binary | 0/1 |
+| | Month | Categorical | "January" |
+| | Is Holiday | Binary | 0/1 |
+| | Season | Categorical | "Winter", "Summer" |
+| **Events** | Event Nearby | Binary | 0/1 |
+| | Event Type | Categorical | "Sports", "Concert", "Festival" |
+| | Event Distance | Numerical (km) | 0.5 |
+| | Event Capacity | Numerical | 10000 |
+| **Traffic** | Traffic Density | Numerical (0-1) | 0.75 |
+| | Average Speed | Numerical (km/h) | 25 |
+| | Road Closure | Binary | 0/1 |
+| **Historical** | Avg Occupancy Last Hour | Numerical (%) | 65 |
+| | Avg Occupancy Same Hour Yesterday | Numerical (%) | 70 |
+| | Avg Occupancy Same Hour Last Week | Numerical (%) | 68 |
+| | Rolling 7-day Average | Numerical (%) | 67 |
+
+#### 7.2.2 Engineered Features
+
+- **Temporal Patterns:**
+  - Is Rush Hour (7-9 AM, 5-7 PM)
+  - Is Lunch Time (12-2 PM)
+  - Is Late Night (10 PM - 6 AM)
+  
+- **Cyclical Encoding:**
+  - Hour_sin = sin(2π × hour/24)
+  - Hour_cos = cos(2π × hour/24)
+  - Day_sin = sin(2π × day/7)
+  - Day_cos = cos(2π × day/7)
+
+- **Interaction Features:**
+  - Zone_Type × Is_Weekend
+  - Hour × Event_Nearby
+  - District × Is_Holiday
+
+### 7.3 Target Variable
+
+**Occupancy Percentage:**
+- Range: 0-100%
+- Definition: (Occupied Spots / Total Capacity) × 100
+- **Availability = 100 - Occupancy**
+
+### 7.4 Model Selection
+
+#### 7.4.1 Baseline Model
+- **Simple Moving Average:** Average of last 3 same-weekday occupancy values
+- **Purpose:** Establish minimum performance threshold
+
+#### 7.4.2 Candidate Models
+
+**1. Linear Regression**
+- Fast training and inference
+- Interpretable coefficients
+- Good for linear relationships
+- **Use Case:** Baseline statistical model
+
+**2. Random Forest**
+- Handles non-linear relationships
+- Robust to outliers
+- Feature importance analysis
+- No extensive feature scaling needed
+- **Use Case:** Strong baseline with interpretability
+
+**3. Gradient Boosting (XGBoost)**
+- State-of-the-art performance
+- Handles complex interactions
+- Built-in regularization
+- Efficient training
+- **Use Case:** Primary production model
+
+**4. Neural Networks (Future)**
+- Deep feature learning
+- Captures complex patterns
+- Scalable to large datasets
+- **Use Case:** When dataset size increases significantly
+
+#### 7.4.3 Model Ensemble
+- Weighted average of Random Forest and XGBoost predictions
+- Weights determined by validation performance
+- **Purpose:** Improve robustness and accuracy
+
+### 7.5 Model Training Pipeline
+
+```
+Raw Data
+    ↓
+Data Validation & Cleaning
+    ↓
+Feature Engineering
+    ↓
+Train-Validation-Test Split (70-15-15)
+    ↓
+Feature Scaling (StandardScaler)
+    ↓
+Model Training (with Cross-Validation)
+    ↓
+Hyperparameter Tuning (Grid/Random Search)
+    ↓
+Model Evaluation
+    ↓
+Model Selection
+    ↓
+Final Model Training on Train+Validation
+    ↓
+Test Set Evaluation
+    ↓
+Model Serialization & Deployment
+```
+
+### 7.6 Training Configuration
+
+**Data Split:**
+- Training: 70% (maintains temporal order)
+- Validation: 15%
+- Test: 15%
+- **Note:** No data leakage from future to past
+
+**Cross-Validation:**
+- Time-series cross-validation (expanding window)
+- 5 folds
+- Ensures temporal integrity
+
+**Hyperparameter Tuning:**
+- XGBoost parameters:
+  - max_depth: [3, 5, 7, 10]
+  - learning_rate: [0.01, 0.05, 0.1]
+  - n_estimators: [100, 200, 500]
+  - subsample: [0.8, 1.0]
+  - colsample_bytree: [0.8, 1.0]
+
+- Random Forest parameters:
+  - n_estimators: [100, 200, 500]
+  - max_depth: [10, 20, None]
+  - min_samples_split: [2, 5, 10]
+  - min_samples_leaf: [1, 2, 4]
+
+### 7.7 Model Output
+
+**Prediction Object:**
+```json
+{
+  "zone_id": "ZONE_001",
+  "prediction_time": "2026-02-07T15:00:00Z",
+  "predicted_availability": 45.3,
+  "confidence_score": 82.5,
+  "prediction_range": {
+    "lower_bound": 38.1,
+    "upper_bound": 52.5
+  },
+  "model_version": "v1.2.3",
+  "features_used": ["hour", "day", "event_nearby", "historical_avg"]
+}
+```
+
+**Confidence Score Calculation:**
+- Based on prediction interval width
+- Historical model accuracy for similar conditions
+- Data quality indicators
+- Formula: `100 - (prediction_std / mean_prediction × 100)`
+
+### 7.8 Model Evaluation
+
+#### 7.8.1 Regression Metrics
+
+| Metric | Formula | Target |
+|--------|---------|--------|
+| **MAE** | Mean Absolute Error | < 10% |
+| **RMSE** | Root Mean Square Error | < 15% |
+| **MAPE** | Mean Absolute Percentage Error | < 12% |
+| **R² Score** | Coefficient of Determination | > 0.75 |
+
+#### 7.8.2 Classification Metrics (Availability Levels)
+Convert predictions to categories: High (>60%), Medium (30-60%), Low (<30%)
+
+- **Accuracy:** Correct category predictions / Total predictions
+- **Precision/Recall:** Per category performance
+- **Confusion Matrix:** Category misclassification analysis
+
+#### 7.8.3 Business Metrics
+- **User Trust:** Confidence score vs actual accuracy correlation
+- **Decision Quality:** Percentage of users finding parking in predicted zones
+- **Time Saved:** Reduction in average parking search time
+
+### 7.9 Model Monitoring & Retraining
+
+**Monitoring:**
+- Daily prediction accuracy tracking
+- Feature drift detection
+- Concept drift monitoring (seasonal changes)
+- Alert triggers:
+  - MAE exceeds 15% for 3 consecutive days
+  - Significant feature distribution shift
+  - New zones added
+
+**Retraining Schedule:**
+- **Regular:** Monthly retraining with latest data
+- **Triggered:** When monitoring alerts fire
+- **Seasonal:** Before major seasonal changes (festival seasons, weather changes)
+
+**A/B Testing:**
+- Deploy new model to 10% of traffic initially
+- Compare performance against current model
+- Gradual rollout if performance improves
+
+---
+
+## 8. Data Requirements
+
+### 8.1 Data Sources
+
+#### 8.1.1 Primary Data Sources
+
+**1. Open City Parking Datasets**
+- **Source:** Municipal open data portals
+- **Examples:**
+  - San Francisco Open Data (SFMTA)
+  - Seattle Open Data Portal
+  - Los Angeles Open Data
+  - Mumbai Smart City Data Portal
+- **Format:** CSV, JSON, API
+- **Update Frequency:** Hourly/Daily
+- **Data Fields:**
+  - Zone ID
+  - Timestamp
+  - Occupied spots
+  - Total capacity
+  - Zone type
+  - Location coordinates
+
+**2. Public Event Calendars**
+- **Source:**
+  - City event websites
+  - Eventbrite API (free tier)
+  - Meetup.com API
+  - Google Calendar Public Events
+- **Data Fields:**
+  - Event name
+  - Date and time
+  - Location/venue
+  - Expected attendance
+  - Event type
+
+**3. Traffic Flow Data (Optional)**
+- **Source:**
+  - Google Maps Traffic API (limited free usage)
+  - OpenStreetMap with traffic data
+  - HERE Traffic API (limited free tier)
+- **Data Fields:**
+  - Road segment ID
+  - Traffic speed
+  - Congestion level
+  - Timestamp
+
+**4. Weather Data (Optional)**
+- **Source:**
+  - OpenWeatherMap API (free tier: 1000 calls/day)
+  - Weather.gov API
+- **Data Fields:**
+  - Temperature
+  - Precipitation
+  - Weather conditions
+  - Timestamp
+
+**5. Public Holidays Calendar**
+- **Source:**
+  - National/regional holiday APIs
+  - Manual calendar creation
+- **Data Fields:**
+  - Date
+  - Holiday name
+  - Type (national, regional, religious)
+
+#### 8.1.2 Synthetic Data Generation (for Prototype)
+
+If real data is unavailable, generate synthetic datasets using:
+- **Time patterns:** Rush hour peaks, weekend variations
+- **Event impact:** 20-40% occupancy increase during events
+- **Seasonal trends:** Higher occupancy in winter evenings
+- **Random noise:** ±10% variation for realism
+
+**Python libraries:**
+- Faker (for zone names, addresses)
+- NumPy (for numerical patterns)
+- Pandas (for time series generation)
+
+### 8.2 Data Volume Estimates
+
+| Zone Count | Records/Day | Records/Month | Records/Year | Storage (CSV) |
+|------------|-------------|---------------|--------------|---------------|
+| 10 zones | 240 | 7,200 | 87,600 | ~4 MB |
+| 50 zones | 1,200 | 36,000 | 438,000 | ~20 MB |
+| 100 zones | 2,400 | 72,000 | 876,000 | ~40 MB |
+| 500 zones | 12,000 | 360,000 | 4,380,000 | ~200 MB |
+
+**Assumptions:**
+- Hourly data collection (24 records/zone/day)
+- Average row size: ~50 bytes
+
+### 8.3 Data Schema
+
+#### 8.3.1 Parking Occupancy Table
+```sql
+CREATE TABLE parking_occupancy (
+    id SERIAL PRIMARY KEY,
+    zone_id VARCHAR(50) NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+    occupied_spots INTEGER NOT NULL,
+    total_capacity INTEGER NOT NULL,
+    occupancy_percentage DECIMAL(5,2) NOT NULL,
+    data_source VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_zone_time UNIQUE (zone_id, timestamp)
+);
+```
+
+#### 8.3.2 Zone Metadata Table
+```sql
+CREATE TABLE zones (
+    zone_id VARCHAR(50) PRIMARY KEY,
+    zone_name VARCHAR(200) NOT NULL,
+    zone_type VARCHAR(50), -- 'Street', 'Garage', 'Lot'
+    district VARCHAR(100),
+    latitude DECIMAL(10,8) NOT NULL,
+    longitude DECIMAL(11,8) NOT NULL,
+    total_capacity INTEGER NOT NULL,
+    hourly_rate DECIMAL(6,2),
+    operating_hours VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### 8.3.3 Events Table
+```sql
+CREATE TABLE events (
+    event_id SERIAL PRIMARY KEY,
+    event_name VARCHAR(200) NOT NULL,
+    event_type VARCHAR(50),
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+    latitude DECIMAL(10,8),
+    longitude DECIMAL(11,8),
+    venue VARCHAR(200),
+    expected_attendance INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### 8.3.4 Predictions Table
+```sql
+CREATE TABLE predictions (
+    prediction_id SERIAL PRIMARY KEY,
+    zone_id VARCHAR(50) NOT NULL,
+    prediction_time TIMESTAMP NOT NULL,
+    predicted_availability DECIMAL(5,2) NOT NULL,
+    confidence_score DECIMAL(5,2),
+    model_version VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (zone_id) REFERENCES zones(zone_id)
+);
+```
+
+### 8.4 Data Quality Requirements
+
+**Completeness:**
+- Missing values < 5% per feature
+- No missing values for critical fields (zone_id, timestamp, occupancy)
+
+**Accuracy:**
+- Occupancy percentage: 0-100%
+- Capacity values validated against zone metadata
+- Timestamp within reasonable range
+
+**Consistency:**
+- Standardized zone IDs across datasets
+- Consistent time zone (UTC)
+- Uniform data formats
+
+**Timeliness:**
+- Historical data: at least 6 months preferred (minimum 1 month)
+- Data latency < 1 hour for near real-time use
+
+### 8.5 Data Preprocessing Steps
+
+1. **Missing Value Handling:**
+   - Forward-fill for short gaps (<2 hours)
+   - Interpolation for longer gaps
+   - Remove records with >30% missing features
+
+2. **Outlier Detection:**
+   - IQR method for occupancy percentage
+   - Domain knowledge rules (e.g., occupancy > 100% flagged)
+   - Manual review of flagged records
+
+3. **Data Normalization:**
+   - Standardize numeric features (StandardScaler)
+   - One-hot encoding for categorical features
+   - Cyclical encoding for time features
+
+4. **Feature Engineering:**
+   - Create lag features (previous hour, day, week)
+   - Calculate rolling averages
+   - Extract temporal features
+   - Encode events and holidays
+
+### 8.6 Data Constraints
+
+**Technical Constraints:**
+- No paid datasets (hackathon/prototype limitation)
+- No proprietary or licensed data
+- Software-based collection only (no hardware sensors in prototype)
+- API rate limits respected (free tiers)
+
+**Legal Constraints:**
+- Only publicly available data
+- Compliance with data usage terms
+- No personal identifiable information (PII)
+- GDPR compliance for European cities
+
+**Ethical Constraints:**
+- No discriminatory features (race, income level)
+- Transparent data usage
+- User privacy protection
+
+---
+
+## 9. User Interface & Experience Design
+
+### 9.1 Design Principles
+
+1. **Simplicity First:** Minimize cognitive load, show essential information
+2. **Mobile-Friendly:** Touch-friendly, responsive, offline-capable
+3. **Accessibility:** WCAG 2.1 AA compliance
+4. **Performance:** Fast load times, progressive rendering
+5. **Trust:** Clear confidence indicators, transparent predictions
+
+### 9.2 User Interface Mockups
+
+#### 9.2.1 Main Dashboard (Web)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  🚗 Smart Parking Predictor      🔍 Search   👤 Profile  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  📍 Current Location: Ahmedabad, Gujarat                 │
+│  🕐 Current Time: 3:45 PM  |  📅 Feb 7, 2026             │
+│                                                          │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │                                                     │ │
+│  │           [INTERACTIVE MAP]                        │ │
+│  │                                                     │ │
+│  │  🟢 Zone A (75% available)                         │ │
+│  │  🟡 Zone B (45% available)                         │ │
+│  │  🔴 Zone C (15% available)                         │ │
+│  │                                                     │ │
+│  │  🎉 Event: Cricket Match at Stadium (5 PM)         │ │
+│  │                                                     │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  Time Filter: [ Now ] [ +1hr ] [ +2hr ] [ +4hr ]        │
+│                                                          │
+│  ⭐ Favorite Zones:                                      │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐               │
+│  │ Office   │ │ Mall     │ │ Airport  │               │
+│  │ 🟢 72%   │ │ 🟡 55%   │ │ 🟢 68%   │               │
+│  └──────────┘ └──────────┘ └──────────┘               │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### 9.2.2 Zone Detail View
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  ← Back to Map                                   ⭐ Save  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  Zone A - Downtown Commercial                           │
+│  📍 CG Road, Ahmedabad                                   │
+│                                                          │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │                                                     │ │
+│  │         Predicted Availability: 75%                │ │
+│  │         🟢 High Availability                        │ │
+│  │                                                     │ │
+│  │         Confidence: 85% ████████░░                  │ │
+│  │                                                     │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  📊 Availability Trend (Next 4 Hours):                  │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │ 100%│                                               │ │
+│  │  80%│ ●━━━━●                                        │ │
+│  │  60%│       ╲                                       │ │
+│  │  40%│         ●━━━━●                                │ │
+│  │  20%│               ╲                               │ │
+│  │   0%├─────┬─────┬─────┬─────┬                      │ │
+│  │     Now  +1h  +2h  +3h  +4h                         │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  ℹ️ Zone Details:                                       │
+│  • Total Capacity: 150 spots                            │
+│  • Currently Available: ~113 spots                      │
+│  • Type: Multi-level Parking Garage                     │
+│  • Rate: ₹30/hour                                       │
+│  • Operating Hours: 24/7                                │
+│                                                          │
+│  ⚠️ Nearby Event: Cricket match at 5 PM                 │
+│     Expected to reduce availability by ~25%             │
+│                                                          │
+│  🗺️ Alternative Zones Nearby:                          │
+│  • Zone B (0.5 km away) - 45% available                 │
+│  • Zone D (0.8 km away) - 62% available                 │
+│                                                          │
+│  [ 🧭 Get Directions ] [ 🔔 Set Alert ]                │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### 9.2.3 Admin Dashboard
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Smart Parking Admin Panel              Logout │ Help   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  📊 System Overview                                      │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  Zones   │ │API Calls │ │  Model   │ │  Users   │  │
+│  │   142    │ │  15.2K   │ │Accuracy: │ │  2,847   │  │
+│  │ Active   │ │  Today   │ │  92.3%   │ │  Active  │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+│                                                          │
+│  📈 Model Performance (Last 7 Days):                    │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │ MAE  │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 8.5%       │ │
+│  │ RMSE │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 11.2%   │ │
+│  │ R²   │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.83  │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  🔧 Quick Actions:                                       │
+│  [ 📁 Upload Dataset ] [ 🔄 Retrain Model ]             │
+│  [ ➕ Add Zone ] [ 📅 Manage Events ]                   │
+│                                                          │
+│  ⚠️ Alerts & Notifications:                             │
+│  • Zone 42: Low data quality detected (2 hours ago)     │
+│  • Model retraining scheduled for tonight               │
+│                                                          │
+│  📋 Recent Activity:                                     │
+│  • Dataset uploaded: parking_jan2026.csv (1 hour ago)   │
+│  • New zone added: Zone 143 - Airport South            │
+│  • User admin@city.gov updated event calendar           │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 9.3 Color Scheme
+
+**Availability Indicators:**
+- 🟢 Green: High availability (>60%) - #10B981
+- 🟡 Yellow: Medium availability (30-60%) - #F59E0B
+- 🔴 Red: Low availability (<30%) - #EF4444
+
+**UI Colors:**
+- Primary: #3B82F6 (Blue)
+- Secondary: #6B7280 (Gray)
+- Success: #10B981 (Green)
+- Warning: #F59E0B (Amber)
+- Error: #EF4444 (Red)
+- Background: #FFFFFF (White)
+- Text: #111827 (Dark Gray)
+
+### 9.4 Responsive Design Breakpoints
+
+- **Mobile:** < 640px (single column, simplified map)
+- **Tablet:** 640px - 1024px (two-column layout)
+- **Desktop:** > 1024px (full dashboard with sidebar)
+
+### 9.5 Accessibility Features
+
+- High contrast mode toggle
+- Keyboard navigation support (Tab, Arrow keys)
+- Screen reader compatible (ARIA labels)
+- Text size adjustment (100%, 125%, 150%)
+- Alternative text for all icons
+- Focus indicators for interactive elements
+- No color-only information (patterns + colors)
+
+---
+
+## 10. API Specification
+
+### 10.1 Authentication
+
+**Method:** JWT (JSON Web Token)
+
+**Flow:**
+1. User registers/logs in
+2. Server returns JWT token
+3. Client includes token in `Authorization` header for all requests
+
+**Example:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### 10.2 API Endpoints
+
+#### 10.2.1 Zone Management
+
+**GET /api/v1/zones**
+- **Description:** Get all parking zones
+- **Authentication:** Optional
+- **Query Parameters:**
+  - `district` (string, optional): Filter by district
+  - `type` (string, optional): Filter by zone type
+  - `limit` (integer, optional): Max results (default: 100)
+  - `offset` (integer, optional): Pagination offset
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "zones": [
+      {
+        "zone_id": "ZONE_001",
+        "zone_name": "Downtown Commercial",
+        "zone_type": "Garage",
+        "district": "Central",
+        "latitude": 23.0225,
+        "longitude": 72.5714,
+        "total_capacity": 150,
+        "operating_hours": "24/7",
+        "hourly_rate": 30
+      }
+    ],
+    "total_count": 142,
+    "limit": 100,
+    "offset": 0
+  }
+}
+```
+
+**GET /api/v1/zones/{zone_id}**
+- **Description:** Get details of a specific zone
+- **Authentication:** Optional
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "zone_id": "ZONE_001",
+    "zone_name": "Downtown Commercial",
+    "zone_type": "Garage",
+    "district": "Central",
+    "latitude": 23.0225,
+    "longitude": 72.5714,
+    "total_capacity": 150,
+    "operating_hours": "24/7",
+    "hourly_rate": 30,
+    "current_occupancy": 38,
+    "current_availability": 75
+  }
+}
+```
+
+#### 10.2.2 Predictions
+
+**GET /api/v1/zones/{zone_id}/prediction**
+- **Description:** Get parking availability prediction for a zone
+- **Authentication:** Required
+- **Query Parameters:**
+  - `time` (ISO 8601 datetime, optional): Prediction time (default: current time)
+  - `include_trend` (boolean, optional): Include hourly trend for next 4 hours
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "zone_id": "ZONE_001",
+    "prediction_time": "2026-02-07T15:00:00Z",
+    "predicted_availability": 75.3,
+    "availability_level": "high",
+    "confidence_score": 85.2,
+    "prediction_range": {
+      "lower_bound": 68.1,
+      "upper_bound": 82.5
+    },
+    "model_version": "v1.2.3",
+    "factors": {
+      "time_of_day": "afternoon",
+      "day_of_week": "Saturday",
+      "events_nearby": true,
+      "historical_trend": "decreasing"
+    },
+    "trend": [
+      {"time": "2026-02-07T15:00:00Z", "availability": 75.3},
+      {"time": "2026-02-07T16:00:00Z", "availability": 68.5},
+      {"time": "2026-02-07T17:00:00Z", "availability": 55.2},
+      {"time": "2026-02-07T18:00:00Z", "availability": 42.8}
+    ]
+  }
+}
+```
+
+**POST /api/v1/predictions/batch**
+- **Description:** Get predictions for multiple zones
+- **Authentication:** Required
+- **Request Body:**
+```json
+{
+  "predictions": [
+    {
+      "zone_id": "ZONE_001",
+      "time": "2026-02-07T15:00:00Z"
+    },
+    {
+      "zone_id": "ZONE_002",
+      "time": "2026-02-07T16:00:00Z"
+    }
+  ]
+}
+```
+- **Response:** Array of prediction objects
+
+#### 10.2.3 Historical Data
+
+**GET /api/v1/zones/{zone_id}/history**
+- **Description:** Get historical occupancy data
+- **Authentication:** Required
+- **Query Parameters:**
+  - `start_date` (ISO 8601 date, required)
+  - `end_date` (ISO 8601 date, required)
+  - `granularity` (string, optional): 'hourly' or 'daily' (default: hourly)
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "zone_id": "ZONE_001",
+    "start_date": "2026-01-01",
+    "end_date": "2026-01-31",
+    "granularity": "hourly",
+    "records": [
+      {
+        "timestamp": "2026-01-01T00:00:00Z",
+        "occupancy_percentage": 15.5,
+        "occupied_spots": 23,
+        "total_capacity": 150
+      }
+    ],
+    "statistics": {
+      "avg_occupancy": 62.3,
+      "max_occupancy": 98.0,
+      "min_occupancy": 8.5,
+      "peak_hour": 18
+    }
+  }
+}
+```
+
+#### 10.2.4 Events
+
+**GET /api/v1/events**
+- **Description:** Get upcoming events affecting parking
+- **Authentication:** Optional
+- **Query Parameters:**
+  - `start_date` (ISO 8601 date, optional): Filter from date
+  - `end_date` (ISO 8601 date, optional): Filter to date
+  - `latitude` (float, optional): Center latitude for nearby events
+  - `longitude` (float, optional): Center longitude
+  - `radius_km` (float, optional): Search radius in km (default: 5)
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "events": [
+      {
+        "event_id": 123,
+        "event_name": "Cricket Match - India vs Australia",
+        "event_type": "Sports",
+        "start_time": "2026-02-07T17:00:00Z",
+        "end_time": "2026-02-07T22:00:00Z",
+        "venue": "Narendra Modi Stadium",
+        "latitude": 23.0921,
+        "longitude": 72.5950,
+        "expected_attendance": 50000,
+        "affected_zones": ["ZONE_015", "ZONE_016", "ZONE_017"]
+      }
+    ],
+    "total_count": 5
+  }
+}
+```
+
+#### 10.2.5 User Management
+
+**POST /api/v1/users/register**
+- **Description:** Register a new user
+- **Authentication:** None
+- **Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!",
+  "name": "John Doe",
+  "phone": "+919876543210"
+}
+```
+
+**POST /api/v1/users/login**
+- **Description:** User login
+- **Authentication:** None
+- **Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!"
+}
+```
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "user_id": "USER_001",
+      "email": "user@example.com",
+      "name": "John Doe"
+    }
+  }
+}
+```
+
+**GET /api/v1/users/favorites**
+- **Description:** Get user's favorite zones
+- **Authentication:** Required
+
+**POST /api/v1/users/favorites**
+- **Description:** Add a zone to favorites
+- **Authentication:** Required
+
+#### 10.2.6 Analytics (Admin Only)
+
+**GET /api/v1/analytics/model-performance**
+- **Description:** Get model performance metrics
+- **Authentication:** Required (Admin)
+- **Response:**
+```json
+{
+  "status": "success",
+  "data": {
+    "model_version": "v1.2.3",
+    "evaluation_date": "2026-02-07",
+    "metrics": {
+      "overall": {
+        "mae": 8.5,
+        "rmse": 11.2,
+        "r2_score": 0.83,
+        "mape": 10.2
+      },
+      "by_zone_type": {
+        "Garage": {"mae": 7.8, "rmse": 10.5},
+        "Street": {"mae": 9.2, "rmse": 12.1},
+        "Lot": {"mae": 8.3, "rmse": 11.0}
+      }
+    },
+    "predictions_made": 125000,
+    "avg_confidence": 82.5
+  }
+}
+```
+
+### 10.3 Error Responses
+
+**Standard Error Format:**
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "ZONE_NOT_FOUND",
+    "message": "The requested zone does not exist",
+    "details": {
+      "zone_id": "ZONE_999"
+    }
+  }
+}
+```
+
+**HTTP Status Codes:**
+- 200: Success
+- 201: Created
+- 400: Bad Request (invalid parameters)
+- 401: Unauthorized (missing/invalid token)
+- 403: Forbidden (insufficient permissions)
+- 404: Not Found
+- 429: Too Many Requests (rate limit exceeded)
+- 500: Internal Server Error
+
+### 10.4 Rate Limiting
+
+- **Free Tier:** 100 requests/hour
+- **Authenticated Users:** 1000 requests/hour
+- **Premium (Future):** 10,000 requests/hour
+
+**Rate Limit Headers:**
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 987
+X-RateLimit-Reset: 1675780800
+```
+
+---
+
+## 11. Testing Strategy
+
+### 11.1 Unit Testing
+
+**Coverage Target:** 80%+
+
+**Components to Test:**
+- Data preprocessing functions
+- Feature engineering logic
+- Prediction API endpoints
+- Database queries
+- Authentication/authorization
+
+**Tools:**
+- Python: pytest, unittest
+- JavaScript: Jest
+- Coverage: pytest-cov, coverage.py
+
+### 11.2 Integration Testing
+
+**Test Scenarios:**
+- End-to-end prediction flow
+- Database integration
+- External API integrations
+- User authentication flow
+- Admin operations
+
+**Tools:**
+- Postman/Newman for API testing
+- Selenium for UI testing
+
+### 11.3 Model Testing
+
+**Test Types:**
+- **Backtesting:** Test predictions against historical data
+- **Cross-Validation:** Time-series split validation
+- **A/B Testing:** Compare model versions
+- **Bias Testing:** Check for systematic errors across zones/times
+
+**Metrics:**
+- Prediction accuracy by zone type
+- Performance during events vs normal days
+- Weekday vs weekend accuracy
+- Time-of-day performance
+
+### 11.4 User Acceptance Testing (UAT)
+
+**Participants:**
+- 10-20 beta users (commuters, parking operators)
+- City administration representatives
+
+**Test Scenarios:**
+- Find parking for daily commute
+- Plan parking for event attendance
+- Operator reviews demand forecasts
+- Admin generates reports
+
+**Success Criteria:**
+- Task completion rate > 90%
+- User satisfaction score > 4/5
+- Critical bugs = 0, minor bugs < 5
+
+### 11.5 Performance Testing
+
+**Load Testing:**
+- Simulate 1,000 concurrent users
+- Measure API response times under load
+- Database query performance
+
+**Stress Testing:**
+- Identify system breaking point
+- Test recovery mechanisms
+
+**Tools:**
+- Apache JMeter
+- Locust
+- k6
+
+### 11.6 Security Testing
+
+**Tests:**
+- SQL injection attempts
+- XSS vulnerability scanning
+- Authentication bypass attempts
+- API rate limit enforcement
+- Data encryption verification
+
+**Tools:**
+- OWASP ZAP
+- Burp Suite
+- Manual penetration testing
+
+---
+
+## 12. Deployment Plan
+
+### 12.1 Deployment Environments
+
+**Development:**
+- Local machines
+- Docker Compose for multi-container setup
+- SQLite database
+- Sample/synthetic data
+
+**Staging:**
+- Cloud-based (AWS/GCP/Azure)
+- Mirrors production configuration
+- PostgreSQL database
+- Subset of real data
+- Used for final testing before production release
+
+**Production:**
+- Cloud-based with auto-scaling
+- PostgreSQL (managed service)
+- Full dataset
+- Monitoring and alerting enabled
+- Backup and disaster recovery configured
+
+### 12.2 Deployment Architecture (Production)
+
+```
+Internet
+    ↓
+[Load Balancer]
+    ↓
+[API Gateway] ← [Rate Limiter]
+    ↓
+┌────────────┬────────────┬────────────┐
+│ App Server │ App Server │ App Server │ (Auto-scaling)
+└────────────┴────────────┴────────────┘
+    ↓                ↓
+[Redis Cache]   [PostgreSQL DB] (Primary + Read Replicas)
+                     ↓
+              [Backup Storage]
+```
+
+### 12.3 CI/CD Pipeline
+
+**Tools:** GitHub Actions / GitLab CI / Jenkins
+
+**Pipeline Stages:**
+
+1. **Code Commit:**
+   - Developer pushes code to feature branch
+   - Automated code quality checks (linting, formatting)
+
+2. **Build:**
+   - Docker image build
+   - Dependency installation
+   - Static code analysis
+
+3. **Test:**
+   - Unit tests
+   - Integration tests
+   - Code coverage report
+   - Security scanning
+
+4. **Deploy to Staging:**
+   - Automated deployment to staging environment
+   - Smoke tests
+   - UAT notification
+
+5. **Manual Approval:**
+   - Product owner/tech lead approves production deployment
+
+6. **Deploy to Production:**
+   - Blue-green deployment (zero downtime)
+   - Health checks
+   - Automated rollback on failure
+
+7. **Post-Deployment:**
+   - Monitoring alerts enabled
+   - Performance metrics collected
+   - User notification (if major release)
+
+### 12.4 Rollback Strategy
+
+**Triggers:**
+- Critical bugs discovered
+- Performance degradation > 20%
+- Error rate > 5%
+- Manual decision by on-call engineer
+
+**Process:**
+1. Automated health check failure triggers alert
+2. On-call engineer investigates
+3. Decision to rollback made
+4. Previous Docker image redeployed
+5. Database migrations rolled back (if applicable)
+6. Cache cleared
+7. Monitoring confirms rollback success
+
+**Target:** Rollback completion within 15 minutes
+
+### 12.5 Monitoring & Alerting
+
+**Metrics to Monitor:**
+- API response time (p50, p95, p99)
+- Error rate (4xx, 5xx responses)
+- Database query performance
+- Model prediction latency
+- System resource usage (CPU, memory, disk)
+- Active users
+- Prediction accuracy drift
+
+**Alerting Conditions:**
+- API response time > 5 seconds for 5 minutes
+- Error rate > 5% for 5 minutes
+- Database connection failures
+- Disk usage > 85%
+- Model accuracy drops below threshold
+
+**Tools:**
+- Prometheus (metrics collection)
+- Grafana (visualization)
+- Alertmanager (alerts to Slack/email/PagerDuty)
+
+### 12.6 Backup & Disaster Recovery
+
+**Backup Strategy:**
+- Database: Automated daily backups, retained for 30 days
+- Model artifacts: Versioned in cloud storage
+- Configuration files: Git repository
+
+**Disaster Recovery Plan:**
+- **RTO (Recovery Time Objective):** 4 hours
+- **RPO (Recovery Point Objective):** 24 hours
+- Documented recovery procedures
+- Quarterly disaster recovery drills
+
+### 12.7 Scalability Plan
+
+**Vertical Scaling:**
+- Upgrade server instances as needed (CPU, RAM)
+
+**Horizontal Scaling:**
+- Auto-scaling based on CPU/memory usage
+- Load balancing across multiple app servers
+
+**Database Scaling:**
+- Read replicas for query load distribution
+- Connection pooling
+- Database sharding (future, if needed)
+
+**Caching Strategy:**
+- Redis for frequently accessed predictions
+- CDN for static assets
+
+---
+
+## 13. Risk Management
+
+### 13.1 Risk Assessment Matrix
+
+| Risk | Impact | Probability | Mitigation Strategy |
+|------|--------|-------------|---------------------|
+| **Incomplete/Poor Quality Datasets** | High | Medium | - Use multiple data sources<br>- Data validation pipeline<br>- Synthetic data generation as fallback |
+| **Low Prediction Accuracy** | High | Medium | - Ensemble models<br>- Feature engineering<br>- Continuous model retraining<br>- Provide confidence scores |
+| **API Rate Limits (External Data)** | Medium | High | - Cache external data<br>- Use free-tier APIs efficiently<br>- Batch requests<br>- Fallback to historical averages |
+| **Scalability Issues** | Medium | Low | - Cloud-native architecture<br>- Containerization<br>- Auto-scaling<br>- Load testing |
+| **Security Vulnerabilities** | High | Low | - Regular security audits<br>- Input validation<br>- Secure authentication<br>- Encryption |
+| **User Adoption Challenges** | Medium | Medium | - Intuitive UI/UX<br>- User onboarding<br>- Marketing campaign<br>- Feedback collection |
+| **Hackathon Time Constraints** | Medium | High | - Prioritize core features (MVP)<br>- Agile methodology<br>- Parallel workstreams<br>- Use pre-built libraries |
+| **Model Drift Over Time** | Medium | Medium | - Automated monitoring<br>- Scheduled retraining<br>- A/B testing new models |
+| **Dependency on External APIs** | Medium | Low | - Multiple data source options<br>- Graceful degradation<br>- Local fallbacks |
+| **Privacy/Compliance Issues** | High | Low | - No PII collection<br>- GDPR compliance<br>- Transparent data usage<br>- Legal review |
+
+### 13.2 Contingency Plans
+
+**If Historical Data is Unavailable:**
+- Generate synthetic datasets using statistical patterns
+- Use public datasets from other cities as proxy
+- Launch with limited zones where data exists
+
+**If Model Accuracy is Below Target:**
+- Deploy baseline statistical model (moving averages)
+- Collect more data and retrain
+- Adjust user expectations (wider confidence intervals)
+- Provide historical trends as alternative
+
+**If External APIs Fail:**
+- Use cached data
+- Fall back to manual event calendar
+- Show reduced confidence scores
+- Graceful degradation (core features still work)
+
+**If User Adoption is Low:**
+- Pivot messaging based on user feedback
+- Add gamification elements
+- Partner with parking operators for promotion
+- Offer incentives (free premium period)
+
+---
+
+## 14. Success Metrics & KPIs
+
+### 14.1 Technical Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| **Model Accuracy (MAE)** | < 10% | Weekly model evaluation |
+| **API Response Time** | < 2 seconds (p95) | Real-time monitoring |
+| **System Uptime** | > 99.5% | Monthly calculation |
+| **Prediction Confidence** | > 80% average | Logged with each prediction |
+| **Data Completeness** | > 95% | Daily data quality checks |
+
+### 14.2 User Engagement Metrics
+
+| Metric | Target (Month 1) | Target (Month 3) | Measurement |
+|--------|------------------|------------------|-------------|
+| **Daily Active Users (DAU)** | 100 | 1,000 | Analytics |
+| **Predictions Requested/Day** | 500 | 5,000 | API logs |
+| **Average Session Duration** | 3 minutes | 5 minutes | Analytics |
+| **User Retention (Week 1)** | 40% | 60% | Cohort analysis |
+| **Favorite Zones Saved/User** | 1.5 | 3 | Database query |
+
+### 14.3 Business Impact Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| **Avg. Parking Search Time Reduction** | 30% | User surveys (before/after) |
+| **User Satisfaction Score** | > 4.0/5.0 | In-app feedback |
+| **Parking Operator Sign-ups** | 5 | Manual tracking |
+| **City Partnership Inquiries** | 2 | Contact form submissions |
+| **Media Coverage** | 3 articles | PR tracking |
+
+### 14.4 Social Impact Metrics
+
+| Metric | Estimation Method |
+|--------|-------------------|
+| **CO₂ Emissions Reduced** | (Avg. search time saved × Users × Emission factor) |
+| **Traffic Congestion Reduction** | User surveys + traffic data correlation |
+| **Time Saved (collective)** | Sum of individual time savings |
+| **Fuel Saved** | (Time saved × Avg. fuel consumption while searching) |
+
+### 14.5 Monitoring Dashboard
+
+**Real-time Dashboard Panels:**
+1. Current active users
+2. API call volume (last hour)
+3. Average prediction accuracy (last 24 hours)
+4. System health (CPU, memory, disk)
+5. Error rate
+6. Top requested zones
+7. Recent user feedback
+8. Model confidence distribution
+
+---
+
+## 15. Product Roadmap
+
+### 15.1 Phase 1: MVP (Hackathon - 24 hours)
+
+**Core Features:**
+- Basic data ingestion pipeline
+- ML model (Linear Regression or Random Forest)
+- Simple prediction API
+- Web dashboard with map and zone predictions
+- Admin panel for data upload
+
+**Success Criteria:**
+- Working prototype
+- Predictions for 10+ zones
+- MAE < 15%
+
+### 15.2 Phase 2: Beta Launch (Month 1-2)
+
+**Features:**
+- Improved ML model (XGBoost, ensemble)
+- User authentication
+- Favorite zones
+- Historical trend visualization
+- Event integration
+- Mobile-responsive design
+- Enhanced UI/UX
+
+**Success Criteria:**
+- 100+ beta users
+- MAE < 10%
+- System uptime > 99%
+- Positive user feedback
+
+### 15.3 Phase 3: Public Launch (Month 3-4)
+
+**Features:**
+- City-wide coverage (100+ zones)
+- API for third-party integrations
+- Premium subscription tier
+- Push notifications
+- Multi-language support
+- Accessibility compliance
+
+**Success Criteria:**
+- 1,000+ active users
+- Partnership with 1+ city government
+- Revenue generation initiated
+
+### 15.4 Phase 4: Advanced Features (Month 6+)
+
+**Features:**
+- Native mobile apps (iOS, Android)
+- Real-time IoT sensor integration
+- Navigation system integration (Google Maps, Waze)
+- Dynamic pricing suggestions
+- Parking reservation system
+- AI chatbot assistant
+- Social features (share parking tips)
+- Gamification (rewards for accurate reports)
+
+### 15.5 Phase 5: Ecosystem Expansion (Year 2+)
+
+**Features:**
+- Multi-city expansion
+- Electric vehicle charging spot predictions
+- Integration with public transport
+- B2B platform for parking operators
+- Open API marketplace
+- Sustainability reporting
+- Government policy advisory dashboard
+
+---
+
+## 16. Monetization Strategy
+
+### 16.1 Revenue Streams
+
+**Free Tier:**
+- Basic predictions for all users
+- Limited to 5 favorite zones
+- Ads on web dashboard
+
+**Premium Tier ($4.99/month):**
+- Ad-free experience
+- Unlimited favorites
+- Priority API access
+- Advanced analytics
+- Push notifications
+- Historical data access
+
+**Business Tier ($49.99/month):**
+- API access for third-party apps
+- Bulk predictions
+- Custom reporting
+- Dedicated support
+- White-label options
+
+**Enterprise (Custom Pricing):**
+- City government licenses
+- Parking operator analytics
+- Custom integrations
+- On-premise deployment option
+- SLA guarantees
+
+### 16.2 B2B Partnerships
+
+**Parking Operators:**
+- Commission on dynamic pricing optimization
+- Lead generation fees
+- Premium listing on platform
+
+**Navigation Apps:**
+- API licensing fees
+- Revenue sharing on referred users
+
+**Smart City Platforms:**
+- Integration fees
+- Data licensing
+
+**Automotive Companies:**
+- In-car integration licensing
+
+---
+
+## 17. Compliance & Legal
+
+### 17.1 Data Privacy
+
+**GDPR Compliance:**
+- User consent for data collection
+- Right to access personal data
+- Right to deletion
+- Data portability
+- Privacy policy clearly stated
+
+**Data Collected:**
+- Email, name (optional for account creation)
+- Favorite zones (user preferences)
+- Usage analytics (anonymized)
+
+**Data NOT Collected:**
+- Location tracking without consent
+- Personal identifiable information (PII) from parking data
+- Payment information (handled by third-party processors)
+
+### 17.2 Terms of Service
+
+**Key Points:**
+- Predictions are estimates, not guarantees
+- No liability for parking unavailability
+- User responsibilities (accurate reporting)
+- Acceptable use policy (no API abuse)
+
+### 17.3 Intellectual Property
+
+**Open Source Components:**
+- Properly licensed (MIT, Apache 2.0)
+- Attribution in documentation
+
+**Proprietary Elements:**
+- ML model architecture (IP of company)
+- Custom algorithms
+- UI/UX designs
+
+---
+
+## 18. Team Structure & Roles (Hackathon Context)
+
+### 18.1 Recommended Team Composition (4-5 members)
+
+**Role 1: Team Lead / Product Manager**
+- Define requirements and priorities
+- Coordinate team activities
+- Manage timeline and deliverables
+- Prepare presentation
+
+**Role 2: Data Scientist / ML Engineer**
+- Data collection and preprocessing
+- Feature engineering
+- Model training and evaluation
+- Prediction API development
+
+**Role 3: Backend Developer**
+- API development (Flask/FastAPI)
+- Database design and management
+- Authentication and security
+- Deployment setup
+
+**Role 4: Frontend Developer**
+- UI/UX design
+- Dashboard development (React)
+- Map integration (Leaflet.js)
+- Responsive design
+
+**Role 5: DevOps / Full-Stack (Optional)**
+- Deployment and CI/CD
+- Monitoring setup
+- Documentation
+- Support other roles as needed
+
+### 18.2 Task Breakdown (24-hour Hackathon)
+
+**Hour 0-2: Planning & Setup**
+- Team roles assignment
+- Environment setup
+- Data source identification
+- Architecture design
+
+**Hour 2-8: Development (Sprint 1)**
+- Data ingestion and preprocessing (DS)
+- Database schema and setup (Backend)
+- Basic API endpoints (Backend)
+- UI wireframes and setup (Frontend)
+
+**Hour 8-12: Core Development**
+- Model training (DS)
+- Prediction API (Backend + DS)
+- Dashboard core features (Frontend)
+- Integration testing
+
+**Hour 12-18: Feature Completion**
+- Model optimization (DS)
+- Admin panel (Backend + Frontend)
+- Map integration (Frontend)
+- End-to-end testing
+
+**Hour 18-22: Polish & Testing**
+- Bug fixes
+- UI/UX improvements
+- Performance optimization
+- Demo preparation
+
+**Hour 22-24: Presentation**
+- Slides creation
+- Demo rehearsal
+- Final testing
+- Deployment to public URL
+
+---
+
+## 19. Documentation Requirements
+
+### 19.1 Technical Documentation
+
+**Architecture Documentation:**
+- System architecture diagram
+- Component descriptions
+- Technology stack justification
+- Data flow diagrams
+
+**API Documentation:**
+- OpenAPI/Swagger specification
+- Endpoint descriptions
+- Request/response examples
+- Authentication guide
+- Error codes
+
+**Database Documentation:**
+- Entity-relationship diagram
+- Schema definitions
+- Indexing strategy
+- Migration scripts
+
+**Deployment Guide:**
+- Environment setup instructions
+- Dependencies and versions
+- Docker configuration
+- Cloud deployment steps
+
+### 19.2 User Documentation
+
+**User Guide:**
+- Getting started tutorial
+- Feature walkthroughs
+- FAQ section
+- Troubleshooting tips
+
+**Video Tutorials:**
+- 2-minute product overview
+- How to check parking availability
+- How to save favorite zones
+
+**Release Notes:**
+- Version history
+- New features
+- Bug fixes
+- Breaking changes
+
+### 19.3 Code Documentation
+
+**Code Comments:**
+- Function docstrings
+- Inline comments for complex logic
+- Type hints (Python)
+
+**README Files:**
+- Project overview
+- Installation instructions
+- Usage examples
+- Contributing guidelines
+
+---
+
+## 20. Conclusion
+
+The AI-Powered Smart Parking Availability Predictor addresses a critical urban mobility challenge through intelligent use of machine learning and open data sources. By providing accurate, real-time parking predictions, the system delivers value to multiple stakeholders:
+
+- **Commuters** save time and reduce stress
+- **Cities** decrease traffic congestion and emissions
+- **Parking operators** optimize utilization and revenue
+- **Environment** benefits from reduced fuel consumption
+
+### 20.1 Key Differentiators
+
+1. **AI-Driven Predictions:** Moving beyond real-time occupancy to forecasting
+2. **Open Data Focus:** No costly infrastructure investment required
+3. **Confidence Scoring:** Transparent prediction reliability
+4. **Event Integration:** Accounts for demand surges from events
+5. **Multi-Stakeholder Value:** Benefits commuters, operators, and city planners
+
+### 20.2 Future Vision
+
+This product lays the foundation for a comprehensive smart city mobility platform that could expand to:
+- Integrated public transport recommendations
+- Electric vehicle charging availability
+- Autonomous vehicle parking coordination
+- City-wide traffic optimization
+
+### 20.3 Social Impact
+
+Beyond commercial success, this solution contributes to:
+- **Sustainability:** Reduced emissions and fuel consumption
+- **Quality of Life:** Less time wasted, reduced stress
+- **Urban Planning:** Data-driven infrastructure decisions
+- **Economic Efficiency:** Optimized resource utilization
+
+### 20.4 Call to Action
+
+We invite cities, parking operators, and technology partners to join us in building smarter, more sustainable urban environments through intelligent parking management.
+
+---
+
+## Appendices
+
+### Appendix A: Sample Dataset Structure
+
+```csv
+zone_id,timestamp,occupied_spots,total_capacity,zone_type,district,event_nearby,traffic_level
+ZONE_001,2026-01-15 08:00:00,120,150,Garage,Downtown,0,0.75
+ZONE_001,2026-01-15 09:00:00,135,150,Garage,Downtown,0,0.85
+ZONE_002,2026-01-15 08:00:00,45,60,Street,Central,1,0.90
+```
+
+### Appendix B: Technology Alternatives
+
+| Component | Primary Choice | Alternative 1 | Alternative 2 |
+|-----------|---------------|---------------|---------------|
+| Backend Framework | Flask | FastAPI | Django |
+| Frontend Framework | React | Vue.js | Angular |
+| Database | PostgreSQL | MySQL | MongoDB |
+| ML Framework | scikit-learn + XGBoost | TensorFlow | PyTorch |
+| Deployment | Docker + Cloud | Kubernetes | Heroku |
+
+### Appendix C: Glossary
+
+- **MAE:** Mean Absolute Error - average prediction error
+- **RMSE:** Root Mean Square Error - prediction accuracy metric
+- **Occupancy:** Percentage of parking spots currently occupied
+- **Availability:** Percentage of parking spots currently available (100 - Occupancy)
+- **Confidence Score:** Model's certainty in its prediction (0-100%)
+- **Zone:** Defined parking area (garage, lot, street section)
+- **Feature Engineering:** Creating input variables for ML models
+- **Ensemble Model:** Combination of multiple models for better predictions
+
+### Appendix D: References
+
+1. Smart City Parking Research Papers
+2. Open Data Portal Examples (San Francisco, Seattle)
+3. Machine Learning for Time Series (Documentation)
+4. Urban Mobility Reports (McKinsey, Deloitte)
+5. Parking Industry Statistics
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** February 7, 2026  
+**Prepared By:** Product Team  
+**Status:** Final
