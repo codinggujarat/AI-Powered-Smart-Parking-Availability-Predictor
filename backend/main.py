@@ -8,6 +8,14 @@ import datetime
 import joblib
 import time
 from fastapi import Request
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -78,6 +86,55 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
         )
     access_token = auth.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@app.post("/api/v1/users/google-login", response_model=schemas.Token)
+def google_login(request: schemas.GoogleLoginRequest, db: Session = Depends(get_db)):
+    try:
+        # Verify token
+        id_info = id_token.verify_oauth2_token(
+            request.token, 
+            google_requests.Request(), 
+            GOOGLE_CLIENT_ID
+        )
+
+        email = id_info['email']
+        name = id_info.get('name', '')
+        
+        # Check if user exists
+        user = db.query(models.User).filter(models.User.email == email).first()
+        
+        if not user:
+            # Register new user
+            # We use a dummy password since they auth via Google
+            # but we hash it to satisfy database constraints
+            dummy_pass = auth.get_password_hash(f"google_{email}_{time.time()}")
+            
+            new_user = models.User(
+                email=email,
+                name=name,
+                hashed_password=dummy_pass,
+                is_admin=False,
+                state="Unknown",
+                country="Unknown",
+                pincode="000000",
+                address_line="Google Account"
+            )
+            db.add(new_user)
+            db.commit()
+            db.refresh(new_user)
+            user = new_user
+            
+        # Create access token
+        access_token = auth.create_access_token(data={"sub": user.email})
+        return {"access_token": access_token, "token_type": "bearer"}
+        
+    except ValueError as e:
+        print(f"Google Auth Error: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Google token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 @app.get("/api/v1/users/me", response_model=schemas.User)
 def read_users_me(current_user: models.User = Depends(auth.get_current_active_user)):

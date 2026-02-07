@@ -114,3 +114,6 @@ class SystemLog(SystemLogBase):
 
     class Config:
         orm_mode = True
+
+class GoogleLoginRequest(BaseModel):
+    token: str
