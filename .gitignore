@@ -3,7 +3,8 @@
 .vscode/
 .idea/
 *.log
-
+DEPLOYMENT.md
+DEPLOYMENT
 # Backend (Python)
 backend/__pycache__/
 backend/*.pyc
