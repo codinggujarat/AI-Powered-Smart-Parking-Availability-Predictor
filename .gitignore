@@ -1,0 +1,49 @@
+# Common
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Backend (Python)
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/.env
+backend/.db
+backend/.venv/
+backend/env/
+backend/dist/
+backend/build/
+backend/*.egg-info/
+backend/.pytest_cache/
+backend/models/*.joblib
+backend/models/latest_mae.joblib
+
+# Frontend (Node.js)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+frontend/.eslintcache
+frontend/.stylelintcache
+frontend/.prettiercache
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/.next/
+frontend/out/
+
+# Project Scripts
+*.bat
+!run_backend.bat
+!run_frontend.bat
+
+# Workspace
+.gemini/
+.agent/
+brain/
