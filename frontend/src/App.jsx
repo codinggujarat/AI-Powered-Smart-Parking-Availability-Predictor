@@ -476,21 +476,21 @@ function App() {
             {/* Main Content */}
             <main className="flex-1 flex flex-col relative overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-300">
                 {/* Header */}
-                <header className="h-14 md:h-16 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between px-3 md:px-8 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-10 transition-colors duration-300">
-                    <div className="flex md:hidden items-center gap-2 flex-1">
-                        <div className="p-1.5 bg-primary rounded-lg text-white shadow-sm">
-                            <ParkingCircle size={18} />
+                <header className="h-16 md:h-20 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between px-4 md:px-8 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-10 transition-colors duration-300">
+                    <div className="md:hidden flex items-center gap-2">
+                        <div className="p-1.5 bg-primary rounded-lg text-white">
+                            <ParkingCircle size={20} />
                         </div>
-                        <span className="text-base font-bold font-outfit text-slate-900 dark:text-white truncate">SmartPark AI</span>
+                        <span className="text-lg font-bold font-outfit text-slate-900 dark:text-white">SmartPark AI</span>
                     </div>
 
-                    <div className="relative w-full max-w-md z-50 flex-1 md:flex-initial mx-2 md:mx-0">
-                        <div className="flex items-center gap-2 md:gap-4 bg-slate-50 dark:bg-slate-900 px-3 md:px-4 py-2 md:py-2.5 rounded-2xl border border-slate-200/50 dark:border-slate-800 w-full group focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/5 transition-all">
-                            <Search size={16} className="text-slate-400 group-focus-within:text-primary transition-colors shrink-0" />
+                    <div className="hidden md:block relative w-full max-w-md z-50">
+                        <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-200/50 dark:border-slate-800 w-full group focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/5 transition-all">
+                            <Search size={18} className="text-slate-400 group-focus-within:text-primary transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Search zones..."
-                                className="bg-transparent border-none focus:outline-none text-xs md:text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400 font-medium"
+                                className="bg-transparent border-none focus:outline-none text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400 font-medium"
                                 value={searchTerm}
                                 onChange={(e) => {
                                     setSearchTerm(e.target.value);
@@ -510,7 +510,7 @@ function App() {
                                 onFocus={() => searchTerm.length > 0 && setShowSearchDropdown(true)}
                             />
                             {searchTerm && (
-                                <button onClick={() => { setSearchTerm(''); setShowSearchDropdown(false); }} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0">
+                                <button onClick={() => { setSearchTerm(''); setShowSearchDropdown(false); }} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                                     <X size={14} />
                                 </button>
                             )}
@@ -531,14 +531,14 @@ function App() {
                                             className="w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50 dark:border-slate-800 last:border-0 flex items-center justify-between group"
                                         >
                                             <div>
-                                                <div className="text-xs md:text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">{result.zone_name}</div>
-                                                <div className="text-[10px] md:text-[11px] text-slate-500 dark:text-slate-400 font-medium">{result.district}</div>
+                                                <div className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">{result.zone_name}</div>
+                                                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{result.district}</div>
                                             </div>
                                             <ChevronRight size={14} className="text-slate-300 group-hover:text-primary transition-colors" />
                                         </button>
                                     ))
                                 ) : (
-                                    <div className="p-4 text-center text-slate-400 text-[10px] md:text-xs font-medium italic">
+                                    <div className="p-4 text-center text-slate-400 text-xs font-medium italic">
                                         No zones found matching "{searchTerm}"
                                     </div>
                                 )}
@@ -546,17 +546,16 @@ function App() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-2 md:gap-4 ml-auto md:ml-0">
-                        <div className="flex bg-slate-50 dark:bg-slate-900 p-1 md:p-1.5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-x-auto no-scrollbar">
+                    <div className="flex items-center gap-4">
+                        <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100 shadow-sm overflow-x-auto max-w-[200px] md:max-w-none no-scrollbar">
                             <TimeFilterBtn active={timeOffset === 0} onClick={() => handleTimeChange(0)}>Now</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 1} onClick={() => handleTimeChange(1)}>+1h</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 2} onClick={() => handleTimeChange(2)}>+2h</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 4} onClick={() => handleTimeChange(4)}>+4h</TimeFilterBtn>
                         </div>
-                        <div className="flex items-center gap-1.5 md:gap-2 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400">
-                            <Clock size={14} className="text-primary hidden md:block" />
-                            <span className="whitespace-nowrap">{format(addHours(new Date(), timeOffset), 'h:mm a')}</span>
-                            <span className="hidden md:block">, {format(addHours(new Date(), timeOffset), 'MMM d')}</span>
+                        <div className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <Clock size={16} className="text-primary" />
+                            <span>{format(addHours(new Date(), timeOffset), 'h:mm a, MMM d')}</span>
                         </div>
                     </div>
                 </header>
@@ -806,7 +805,7 @@ function App() {
 
                                         <button
                                             onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedZone.latitude},${selectedZone.longitude}`, '_blank')}
-                                            className="w-full mt-auto bg-primary hover:bg-primary-dark text-white font-bold py-3 md:py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-xs md:text-sm tracking-wide mb-20 md:mb-0 transform active:scale-[0.98]"
+                                            className="w-full mt-auto bg-primary hover:bg-primary-dark text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-primary/10 flex items-center justify-center gap-2 text-sm tracking-wide mb-16 md:mb-0"
                                         >
                                             Navigate to Zone <ChevronRight size={18} />
                                         </button>
@@ -888,8 +887,8 @@ function AuthPage({ setToken, setUser }) {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4 font-inter dark:from-slate-950 dark:to-slate-900">
-            <div className="bg-white dark:bg-slate-950 w-full max-w-md p-6 md:p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 transition-all duration-500 overflow-hidden">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-inter">
+            <div className="bg-white w-full max-w-md p-8 md:p-12 rounded-3xl shadow-2xl border border-slate-100">
                 <div className="text-center mb-10">
                     <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-6 shadow-sm">
                         <ParkingCircle size={40} />
@@ -899,13 +898,14 @@ function AuthPage({ setToken, setUser }) {
                     </h1>
                     <p className="text-slate-400 font-medium text-lg">SmartPark AI Urban Mobility</p>
 
-                    <div className="mt-4 p-3 bg-primary/5 border border-primary/10 rounded-2xl text-left animate-pulse">
-                        <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1 text-center">Admin Evaluation Login</p>
-                        <div className="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-600 dark:text-slate-400">
-                            <span>Email: <code className="text-primary italic">admin@smartpark.ai</code></span>
-                            <span>Pass: <code className="text-primary italic">password123</code></span>
+                    {/* Admin Demo Note */}
+                    {/* <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl text-left">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Admin Demo Credentials</p>
+                        <div className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                            <span className="select-all">Login: <code className="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-primary">admin@smartpark.ai</code></span>
+                            <span className="select-all">Pass: <code className="bg-white px-1.5 py-0.5 rounded border border-slate-200 text-primary">password123</code></span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <form onSubmit={authMode === 'login' ? handleLogin : handleRegister} className="space-y-6">
@@ -1029,7 +1029,7 @@ function TimeFilterBtn({ children, active, onClick }) {
     return (
         <button
             onClick={onClick}
-            className={`flex-1 md:min-w-[60px] px-2 md:px-4 py-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
+            className={`min-w-[60px] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-50'
                 }`}
         >
             {children}
@@ -1204,13 +1204,13 @@ function EventsView({ events, onZoneSelect, user, token, onRefresh }) {
 
 function StatCard({ label, value, subValue, icon }) {
     return (
-        <div className="bg-white dark:bg-slate-900 p-3 md:p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm group hover:border-primary/30 transition-all">
-            <div className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2 text-slate-400">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm group hover:border-primary/30 transition-all">
+            <div className="flex items-center gap-2 mb-2 text-slate-400">
                 {icon}
-                <span className="text-[9px] md:text-[11px] uppercase tracking-widest font-black leading-none">{label}</span>
+                <span className="text-[11px] uppercase tracking-widest font-black leading-none">{label}</span>
             </div>
-            <div className="text-lg md:text-2xl font-bold font-outfit text-slate-900 dark:text-white leading-none mb-1 md:mb-1.5">{value}</div>
-            <div className="text-[10px] md:text-[11px] text-slate-500 font-medium flex items-center gap-1.5 opacity-80">
+            <div className="text-2xl font-bold font-outfit text-slate-900 dark:text-white leading-none mb-1.5">{value}</div>
+            <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 opacity-80">
                 <div className="w-1 h-1 rounded-full bg-slate-300" />
                 {subValue}
             </div>
