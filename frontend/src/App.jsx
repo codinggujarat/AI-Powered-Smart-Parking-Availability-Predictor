@@ -124,6 +124,8 @@ function App() {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
+    const [showLegend, setShowLegend] = useState(false);
 
     // Live Location Tracking
     useEffect(() => {
@@ -546,16 +548,126 @@ function App() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100 shadow-sm overflow-x-auto max-w-[200px] md:max-w-none no-scrollbar">
+                    {/* Mobile Search Button */}
+                    <div className="md:hidden flex items-center gap-2">
+                        <button
+                            onClick={() => setShowMobileSearch(true)}
+                            className="p-2 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 text-slate-500 active:scale-90 transition-all"
+                        >
+                            <Search size={20} />
+                        </button>
+                    </div>
+
+                    {/* Mobile Search Overlay */}
+                    {showMobileSearch && (
+                        <div className="fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-4 animate-in fade-in zoom-in duration-200 flex flex-col">
+                            <div className="flex items-center gap-3 mb-6">
+                                <button onClick={() => setShowMobileSearch(false)} className="p-2 -ml-2 text-slate-400">
+                                    <ChevronRight size={24} className="rotate-180" />
+                                </button>
+                                <div className="flex-1 relative">
+                                    <input
+                                        autoFocus
+                                        type="text"
+                                        placeholder="Search parking zones..."
+                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 text-base focus:outline-none focus:border-primary transition-all font-medium"
+                                        value={searchTerm}
+                                        onChange={(e) => {
+                                            setSearchTerm(e.target.value);
+                                            const term = e.target.value.toLowerCase();
+                                            const results = zones.filter(z =>
+                                                z.zone_name.toLowerCase().includes(term) ||
+                                                z.district.toLowerCase().includes(term)
+                                            );
+                                            setSearchResults(results);
+                                        }}
+                                    />
+                                    {searchTerm && (
+                                        <button onClick={() => setSearchTerm('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                            <X size={18} />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto">
+                                {searchTerm.length > 0 ? (
+                                    searchResults.length > 0 ? (
+                                        <div className="space-y-2">
+                                            {searchResults.map(result => (
+                                                <button
+                                                    key={result.zone_id}
+                                                    onClick={() => {
+                                                        handleZoneClick(result);
+                                                        setSearchTerm('');
+                                                        setShowMobileSearch(false);
+                                                        if (view !== 'dashboard') setView('dashboard');
+                                                    }}
+                                                    className="w-full flex items-center p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl active:bg-slate-50 transition-colors"
+                                                >
+                                                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center mr-4">
+                                                        <MapPin size={20} />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <div className="font-bold text-slate-900 dark:text-white">{result.zone_name}</div>
+                                                        <div className="text-xs text-slate-500 font-medium">{result.district}</div>
+                                                    </div>
+                                                    <ChevronRight size={16} className="text-slate-300" />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="py-12 text-center">
+                                            <div className="text-slate-300 mb-4 flex justify-center"><Search size={48} strokeWidth={1} /></div>
+                                            <p className="text-slate-400 font-medium">No zones found matching "{searchTerm}"</p>
+                                        </div>
+                                    )
+                                ) : (
+                                    <div className="py-8">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Saved Locations</h4>
+                                        {favorites.length > 0 ? (
+                                            <div className="space-y-2">
+                                                {favorites.map(fav => (
+                                                    <button
+                                                        key={fav.zone_id}
+                                                        onClick={() => {
+                                                            handleZoneClick(fav);
+                                                            setShowMobileSearch(false);
+                                                            if (view !== 'dashboard') setView('dashboard');
+                                                        }}
+                                                        className="w-full flex items-center p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl active:bg-slate-50 transition-colors"
+                                                    >
+                                                        <div className="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mr-4">
+                                                            <Star size={20} className="fill-amber-500" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <div className="font-bold text-slate-900 dark:text-white">{fav.zone_name}</div>
+                                                            <div className="text-xs text-slate-500 font-medium">{fav.district}</div>
+                                                        </div>
+                                                        <ChevronRight size={16} className="text-slate-300" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p className="text-slate-400 text-xs font-medium italic">No favorites yet.</p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="flex items-center gap-2 md:gap-4">
+                        <div className="flex bg-slate-50 dark:bg-slate-900 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-x-auto max-w-[140px] sm:max-w-none no-scrollbar">
                             <TimeFilterBtn active={timeOffset === 0} onClick={() => handleTimeChange(0)}>Now</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 1} onClick={() => handleTimeChange(1)}>+1h</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 2} onClick={() => handleTimeChange(2)}>+2h</TimeFilterBtn>
                             <TimeFilterBtn active={timeOffset === 4} onClick={() => handleTimeChange(4)}>+4h</TimeFilterBtn>
                         </div>
-                        <div className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                            <Clock size={16} className="text-primary" />
-                            <span>{format(addHours(new Date(), timeOffset), 'h:mm a, MMM d')}</span>
+                        <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <Clock size={14} className="text-primary md:w-4 md:h-4" />
+                            <span className="whitespace-nowrap">{format(addHours(new Date(), timeOffset), 'h:mm a')}</span>
+                            <span className="hidden sm:inline opacity-50">, {format(addHours(new Date(), timeOffset), 'MMM d')}</span>
                         </div>
                     </div>
                 </header>
@@ -697,26 +809,63 @@ function App() {
                                 )}
 
                                 {/* Map Legend Overlay */}
-                                <div className="absolute bottom-6 left-6 z-[10] bg-white/90 dark:bg-slate-900/90 p-5 rounded-2xl border border-slate-200/50 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none backdrop-blur-md hidden md:block">
-                                    <h4 className="text-[10px] uppercase tracking-widest text-slate-400 font-extrabold mb-4">Live Availability</h4>
-                                    <div className="flex flex-col gap-3">
-                                        <LegendItem color="#10B981" label="High (>60%)" />
-                                        <LegendItem color="#F59E0B" label="Medium (30-60%)" />
-                                        <LegendItem color="#EF4444" label="Low (<30%)" />
+                                <div className="absolute bottom-6 left-6 z-[10] hidden md:block">
+                                    <div className="bg-white/90 dark:bg-slate-900/90 p-5 rounded-2xl border border-slate-200/50 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none backdrop-blur-md">
+                                        <h4 className="text-[10px] uppercase tracking-widest text-slate-400 font-extrabold mb-4">Live Availability</h4>
+                                        <div className="flex flex-col gap-3">
+                                            <LegendItem color="#10B981" label="High (>60%)" />
+                                            <LegendItem color="#F59E0B" label="Medium (30-60%)" />
+                                            <LegendItem color="#EF4444" label="Low (<30%)" />
+                                        </div>
                                     </div>
+                                </div>
+
+                                {/* Mobile Legend Toggle */}
+                                <div className="md:hidden absolute bottom-20 left-4 z-[10]">
+                                    {showLegend ? (
+                                        <div className="bg-white/95 dark:bg-slate-900/95 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl animate-in slide-in-from-bottom-2 duration-200">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <h4 className="text-[9px] uppercase tracking-wider text-slate-400 font-black">Availability Guide</h4>
+                                                <button onClick={() => setShowLegend(false)} className="text-slate-400 p-1"><X size={14} /></button>
+                                            </div>
+                                            <div className="flex flex-col gap-2">
+                                                <LegendItem color="#10B981" label="High (>60%)" />
+                                                <LegendItem color="#F59E0B" label="Medium (30-60%)" />
+                                                <LegendItem color="#EF4444" label="Low (<30%)" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => setShowLegend(true)}
+                                            className="w-10 h-10 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 shadow-lg active:scale-95 transition-all"
+                                        >
+                                            <Info size={20} />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Details Panel - Mobile Full Screen on Selection */}
-                            <aside className={`w-full md:w-[400px] border-l border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto custom-scrollbar ${selectedZone ? 'block fixed inset-0 z-20 md:relative md:inset-auto' : 'hidden md:block'}`}>
+                            {/* Details Panel - Mobile Bottom Sheet on Selection */}
+                            <aside className={`
+                                w-full md:w-[400px] border-l border-slate-100 dark:border-slate-800 
+                                bg-white dark:bg-slate-900 overflow-y-auto custom-scrollbar transition-all duration-300
+                                ${selectedZone
+                                    ? 'fixed inset-x-0 bottom-0 top-[15%] md:top-0 md:relative md:inset-auto z-[60] md:z-auto rounded-t-[32px] md:rounded-none shadow-[0_-12px_40px_-10px_rgba(0,0,0,0.1)]'
+                                    : 'hidden md:block'
+                                }
+                            `}>
                                 {selectedZone ? (
                                     <div className="p-8 h-full flex flex-col">
-                                        <button
-                                            onClick={() => setSelectedZone(null)}
-                                            className="md:hidden self-start mb-4 p-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-900 dark:text-white"
-                                        >
-                                            <ChevronRight size={24} className="rotate-180" />
-                                        </button>
+                                        {/* Mobile Drag Handle & Close */}
+                                        <div className="md:hidden flex flex-col items-center mb-6 pt-2">
+                                            <div className="w-12 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mb-4" />
+                                            <button
+                                                onClick={() => setSelectedZone(null)}
+                                                className="self-start p-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-900 dark:text-white"
+                                            >
+                                                <X size={20} />
+                                            </button>
+                                        </div>
 
                                         <div className="flex justify-between items-start mb-6">
                                             <div className="flex-1 pr-4">
@@ -1029,7 +1178,9 @@ function TimeFilterBtn({ children, active, onClick }) {
     return (
         <button
             onClick={onClick}
-            className={`min-w-[60px] px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-50'
+            className={`min-w-[45px] md:min-w-[60px] px-2.5 md:px-4 py-2 md:py-1.5 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-lg md:rounded-xl transition-all whitespace-nowrap active:scale-95 ${active
+                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
         >
             {children}
@@ -1204,14 +1355,14 @@ function EventsView({ events, onZoneSelect, user, token, onRefresh }) {
 
 function StatCard({ label, value, subValue, icon }) {
     return (
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm group hover:border-primary/30 transition-all">
-            <div className="flex items-center gap-2 mb-2 text-slate-400">
+        <div className="bg-white dark:bg-slate-900 p-3 md:p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm group hover:border-primary/30 transition-all">
+            <div className="flex items-center gap-2 mb-1.5 md:mb-2 text-slate-400">
                 {icon}
-                <span className="text-[11px] uppercase tracking-widest font-black leading-none">{label}</span>
+                <span className="text-[9px] md:text-[11px] uppercase tracking-widest font-black leading-none">{label}</span>
             </div>
-            <div className="text-2xl font-bold font-outfit text-slate-900 dark:text-white leading-none mb-1.5">{value}</div>
-            <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 opacity-80">
-                <div className="w-1 h-1 rounded-full bg-slate-300" />
+            <div className="text-xl md:text-2xl font-bold font-outfit text-slate-900 dark:text-white leading-none mb-1 md:mb-1.5">{value}</div>
+            <div className="text-[10px] md:text-[11px] text-slate-500 font-medium flex items-center gap-1.5 opacity-80">
+                <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
                 {subValue}
             </div>
         </div>

@@ -101,6 +101,9 @@ The platform features an expanded dataset of **138+ Parking Zones** covering the
 1.  Run **`run_backend.bat`** (Starts FastAPI on port 8000)
 2.  Run **`run_frontend.bat`** (Starts Vite on port 5173)
 
+### 🌍 Production Deployment
+For deploying to Render (Backend) and Vercel (Frontend), see our comprehensive **[Deployment Guide](file:///c:/Users/amann/Downloads/AI-Powered%20Smart%20Parking%20Availability%20Predictor/DEPLOYMENT.md)**.
+
 ### Manual Installation
 **1. Backend**
 ```bash

@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy.orm import Session
-from database import SessionLocal
-import models
+from backend.database import SessionLocal
+from backend import models
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score

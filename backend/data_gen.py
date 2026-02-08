@@ -3,8 +3,8 @@ import numpy as np
 from datetime import datetime, timedelta
 import random
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
-import models, auth
+from backend.database import SessionLocal, engine
+from backend import models, auth
 
 # Set seed for reproducibility
 np.random.seed(42)

@@ -5,7 +5,7 @@ import bcrypt
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-import models, database
+from backend import models, database
 
 # Configuration
 SECRET_KEY = "your-secret-key-for-demo-purposes" # In production, use environment variables

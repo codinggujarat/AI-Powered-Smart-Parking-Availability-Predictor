@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-import models, schemas, database, auth, ml_engine
-from database import engine, get_db
+from backend import models, schemas, database, auth, ml_engine
+from backend.database import engine, get_db
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 import datetime
@@ -201,7 +201,7 @@ def delete_event(event_id: int, db: Session = Depends(get_db), current_user: mod
     db.commit()
     return {"message": "Event deleted"}
 
-import ml_engine
+# ml_engine imported at top
 
 @app.get("/api/v1/zones/{zone_id}/prediction")
 def get_prediction(zone_id: str, time: datetime.datetime = None, db: Session = Depends(get_db)):
